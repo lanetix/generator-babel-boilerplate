@@ -10,7 +10,6 @@ var kebabcase = require('lodash.kebabcase');
 var trim = require('lodash.trim');
 var Promise = require('bluebird');
 var exec = Promise.promisify(require('child_process').exec);
-var gitConfig = require('git-config');
 
 module.exports = generators.Base.extend({
   initializing: function() {
@@ -39,40 +38,21 @@ module.exports = generators.Base.extend({
     config.user = config.user ? config.user : {};
     var prompts = [{
       type: 'input',
-      name: 'user',
-      message: 'What is the Github username/organization for this project?',
-      default: this.username,
-      store: true
+      name: 'event',
+      message: 'What event do you want to handle?',
+      default: 'parts_warehouse'
     }, {
       type: 'input',
-      name: 'repo',
-      message: 'What is the repository/project name?',
-      default: kebabcase(this.appname)
-    }, {
-      type: 'input',
-      name: 'description',
-      message: 'What is a short description for this project?'
-    }, {
-      type: 'input',
-      name: 'author',
-      message: 'Who is the author of this project?',
-      default: config.user.name + ' <' + config.user.email + '>',
-      store: true
-    }, {
-      type: 'input',
-      name: 'variable',
-      message: 'If there is one, what is the name of this project\'s main variable?',
-      default: camelcase(this.appname)
+      name: 'level',
+      message: 'Which run level should your handler operate at?',
+      default: 'notpure'
     }];
 
     var self = this;
     return new Promise(function(resolve, reject) {
       self.prompt(prompts, function(props) {
-        self.user = props.user;
-        self.repo = props.repo;
-        self.description = props.description;
-        self.author = props.author;
-        self.variable = props.variable;
+        self.event = props.event;
+        self.level = props.level;
         resolve();
       });
     });
@@ -97,8 +77,8 @@ module.exports = generators.Base.extend({
           }
         });
       });
-      this.template('src/index.js', 'src/' + this.repo + '.js');
-      this.template('test/unit/index.js', 'test/unit/' + this.repo + '.js');
+      this.template('src/index.js', 'src/handler.js');
+      this.template('test/unit/index.js', 'test/unit/handler.js');
     }
   },
 

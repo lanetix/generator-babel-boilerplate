@@ -15,7 +15,6 @@ import manifest  from './package.json';
 const $ = loadPlugins();
 
 // Gather the library data from `package.json`
-const config = manifest.babelBoilerplateOptions;
 const mainFile = manifest.main;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
@@ -58,13 +57,12 @@ function lintGulpfile() {
 }
 
 function build() {
-  return gulp.src(path.join('src', config.entryFileName + '.js'))
+  return gulp.src(path.join('src', 'handler.js'))
     .pipe($.plumber())
     .pipe(webpackStream({
       output: {
         filename: exportFileName + '.js',
-        libraryTarget: 'umd',
-        library: config.mainVarName
+        libraryTarget: 'commonjs2'
       },
       module: {
         loaders: [

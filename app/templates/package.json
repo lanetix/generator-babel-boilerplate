@@ -1,8 +1,11 @@
 {
-  "name": "<%= repo %>",
-  "version": "0.0.1",
-  "description": "<%- description %>",
-  "main": "dist/<%= repo %>.js",
+  "main": "dist/handler.js",
+  "lanetix": {
+    "script": {
+      "event_name": "<%= event %>",
+      "run_level": "<%= level %>"
+    }
+  },
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
@@ -11,17 +14,6 @@
     "build": "gulp build",
     "coverage": "gulp coverage"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/<%= user %>/<%= repo %>.git"
-  },
-  "keywords": [],
-  "author": "<%- author %>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/<%= user %>/<%= repo %>/issues"
-  },
-  "homepage": "https://github.com/<%= user %>/<%= repo %>",
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-eslint": "^4.1.6",
@@ -54,9 +46,5 @@
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^1.12.9",
     "webpack-stream": "^3.1.0"
-  },
-  "babelBoilerplateOptions": {
-    "entryFileName": "<%= repo %>",
-    "mainVarName": "<%= variable %>"
   }
 }

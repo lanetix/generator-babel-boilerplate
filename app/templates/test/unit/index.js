@@ -1,18 +1,14 @@
-import <%= variable %> from '../../src/<%= repo %>';
+import handler from '../../src/handler';
 
-describe('<%= variable %>', () => {
-  describe('Greet function', () => {
+describe('Event <%= event %>', () => {
+  describe('Handler function', () => {
     beforeEach(() => {
-      spy(<%= variable %>, 'greet');
-      <%= variable %>.greet();
+      spy(handler);
+      handler();
     });
 
     it('should have been run once', () => {
-      expect(<%= variable %>.greet).to.have.been.calledOnce;
-    });
-
-    it('should have always returned hello', () => {
-      expect(<%= variable %>.greet).to.have.always.returned('hello');
+      expect(handler).to.have.been.calledOnce;
     });
   });
 });
