@@ -1,17 +1,19 @@
-export function handler(event, context) {
-  if ((event.record.capacity < 30) && (event.changeSet.capacity > 30)) {
-    context.succeed([{
-      to: 'management@acme.com',
-      subject: `Duck depot capacity expanded!`,
-      body: 'The duck depot can now handle' + event.changeSet.capacity
-    }]);
-  } else if ((event.record.capacity > 10) && (event.changeSet.capacity < 10)) {
-    context.succeed([{
-      to: 'management@acme.com',
-      subject: `Duck depot capacity critically low!`,
-      body: 'The duck depot can now handle' + event.changeSet.capacity
-    }]);
-  } else {
-    context.fail();
+const request = require('http-as-promised').defaults({
+  json: true,
+  resolve: 'body'
+})
+
+export function handler (event, context) {
+  const { jwt, contents: { recordId, toStage } } = event
+  const { succeed, fail } = context
+  const advancing = {
+    third: 0.25,
+    forth: 0.50,
+    fifth: 0.75,
+    sixth: 1.00
   }
+  request.patch(`https://gateway.lanetix.com/v1/records/<%= recordType %>/${recordId}`, {
+    auth: { bearer: jwt },
+    body: { chance_to_win: advancing[toStage] }
+  }).then(succeed).catch(fail)
 }

@@ -60,14 +60,23 @@ function build() {
   return gulp.src(path.join('src', 'handler.js'))
     .pipe($.plumber())
     .pipe(webpackStream({
+      target: 'node',
       output: {
         filename: exportFileName + '.js',
         libraryTarget: 'commonjs2'
       },
       module: {
         loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
-        ]
+          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+          { test: /\.json$/, loader: 'json-loader' }
+        ],
+        noParse: /node_modules\/json-schema\/lib\/validate\.js/
+      },
+      node: {
+        console: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
       },
       devtool: 'source-map'
     }))
@@ -77,7 +86,7 @@ function build() {
     .pipe($.sourcemaps.init({ loadMaps: true }))
     .pipe($.uglify())
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(destinationFolder));
+    .pipe(gulp.dest(destinationFolder))
 }
 
 function _mocha() {
@@ -182,7 +191,7 @@ gulp.task('lint-gulpfile', lintGulpfile);
 gulp.task('lint', ['lint-src', 'lint-test', 'lint-gulpfile']);
 
 // Build two versions of the library
-gulp.task('build', ['lint', 'clean'], build);
+gulp.task('build', ['clean'], build);
 
 // Lint and run our tests
 gulp.task('test', ['lint'], test);

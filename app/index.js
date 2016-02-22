@@ -1,13 +1,14 @@
 'use strict';
+var _ = require('lodash');
 var file = require('file');
 var path = require('path');
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
-var camelcase = require('lodash.camelcase');
-var kebabcase = require('lodash.kebabcase');
-var trim = require('lodash.trim');
+var camelcase = _.camelCase;
+var kebabcase = _.kebabCase;
+var trim = _.trim;
 var Promise = require('bluebird');
 var exec = Promise.promisify(require('child_process').exec);
 
@@ -34,25 +35,43 @@ module.exports = generators.Base.extend({
   },
 
   _showPrompts: function() {
-    var config = gitConfig.sync();
-    config.user = config.user ? config.user : {};
     var prompts = [{
-      type: 'input',
+      type: 'list',
       name: 'event',
       message: 'What event do you want to handle?',
+      choices: [
+        'recordChangePostCommit',
+        'workflowPostStageAdvance'
+      ],
+      default: 'recordChangePostCommit'
+    }, {
+      type: 'input',
+      name: 'recordType',
+      message: 'What record type do you want to handle?',
+      filter: _.snakeCase,
       default: 'parts_warehouse'
     }, {
       type: 'input',
-      name: 'level',
-      message: 'Which run level should your handler operate at?',
-      default: 'notpure'
+      name: 'timeout',
+      message: 'How long should your handler be allowed to run? (ms)',
+      filter: Number,
+      validate: function(num){
+        var input = Number(num)
+        return !_.isSafeInteger(input)
+          ? 'must be an integer'
+          : input <= 0
+            ? 'must be greater than zero'
+            : true
+      },
+      default: 100
     }];
 
     var self = this;
     return new Promise(function(resolve, reject) {
       self.prompt(prompts, function(props) {
-        self.event = props.event;
-        self.level = props.level;
+        self.event = props.event
+        self.timeout = props.timeout
+        self.recordType = props.recordType
         resolve();
       });
     });

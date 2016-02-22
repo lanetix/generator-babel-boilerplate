@@ -1,11 +1,15 @@
 {
   "main": "dist/handler.js",
-  "lanetix": {
-    "script": {
-      "event_name": "<%= event %>",
-      "run_level": "<%= level %>"
-    }
-  },
+  "lanetix": [{
+    "event": {
+      "name": "<%= event %>",
+      "recordType": "<%= recordType %>"
+    },
+    "environment": {
+      "timeout": <%= timeout %>
+    },
+    "path": "dist/handler.js"
+  }],
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
@@ -13,6 +17,9 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "coverage": "gulp coverage"
+  },
+  "dependencies": {
+    "http-as-promised": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
