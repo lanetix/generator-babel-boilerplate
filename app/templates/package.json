@@ -1,6 +1,6 @@
 {
   "main": "dist/handler.js",
-  "lanetix": [{
+  "lanetix": {
     "event": {
       "name": "<%= event %>",
       "recordType": "<%= recordType %>"
@@ -9,7 +9,7 @@
       "timeout": <%= timeout %>
     },
     "path": "dist/handler.js"
-  }],
+  },
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
