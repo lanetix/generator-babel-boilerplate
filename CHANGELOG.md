@@ -27,7 +27,7 @@
 - The `gulpfile` is now authored in ES2015
 - The `gulpfile` is now linted
 - The `gulpfile` has been cleaned up
-- The boilerplate should now support more Babel transforms. Because support for these things is always changing, I encourage you to try out the features you wish to use to see if they work. [File an issue](https://github.com/babel/generator-babel-boilerplate/issues/new) if they don't!
+- The boilerplate should now support more Babel transforms. Because support for these things is always changing, I encourage you to try out the features you wish to use to see if they work. [File an issue](https://github.com/lanetix/generator-lanetix-script/issues/new) if they don't!
 - There's a new `npm` script solely for linting: `npm lint`
 - Webpack is now the sole build tool. It has replaced Esperanto (which is deprecated) and Browserify
 - Linting errors will no longer send an OS notification; instead, it will beep your terminal

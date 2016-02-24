@@ -1,7 +1,4 @@
-# generator-babel-boilerplate
-[![Travis build status](http://img.shields.io/travis/babel/generator-babel-boilerplate.svg?style=flat)](https://travis-ci.org/babel/generator-babel-boilerplate)
-[![Dependency Status](https://david-dm.org/babel/generator-babel-boilerplate.svg)](https://david-dm.org/babel/generator-babel-boilerplate)
-[![devDependency Status](https://david-dm.org/babel/generator-babel-boilerplate/dev-status.svg)](https://david-dm.org/babel/generator-babel-boilerplate#info=devDependencies)
+# generator-lanetix-script
 
 A [Yeoman](http://yeoman.io/) generator to author libraries in ES2015 (and beyond!) for Node and the browser.
 
@@ -16,18 +13,18 @@ A [Yeoman](http://yeoman.io/) generator to author libraries in ES2015 (and beyon
 
 Install `yo` and this generator globally.
 
-`npm install -g yo generator-babel-boilerplate`
+`npm install -g yo @lanetix/generator-lanetix-script`
 
 ### Using Yeoman
 
-Navigate to the directory you'd like to use for your project, then run `yo babel-boilerplate`.
+Navigate to the directory you'd like to use for your project, then run `yo lanetix-script`.
 
 Answer a few questions, and your project will be scaffolded.
 
 ### Basic Guide
 
 Write your code in `src`. The entry file is what you named the project in kebab case ([although the filename
-can be changed](https://github.com/babel/generator-babel-boilerplate#i-want-to-change-the-primary-source-file)).
+can be changed](https://github.com/lanetix/generator-lanetix-script#i-want-to-change-the-primary-source-file)).
 
 Run `npm run build` to compile the source into a distributable format.
 
@@ -47,7 +44,7 @@ require the DOM API, see the `test/setup/node.js` file.
 
 ### Browser Tests
 
-The [browser spec runner](https://github.com/babel/generator-babel-boilerplate/blob/master/test/runner.html)
+The [browser spec runner](https://github.com/lanetix/generator-lanetix-script/blob/master/test/runner.html)
 can be opened in a browser to run your tests. For it to work, you must first run `npm run test-browser`. This
 will set up a watch task that will automatically refresh the tests when your scripts, or the tests, change.
 
@@ -63,7 +60,7 @@ Either of these items on the list can simply be ignored if you're uninterested i
 out entirely from the boilerplate and not worry about it. To do that, update the relevant Gulp tasks and the Travis
 build.
 
-If you'd like to set up Code Climate for your project, follow [the steps here](https://github.com/babel/generator-babel-boilerplate/wiki/Code-Climate).
+If you'd like to set up Code Climate for your project, follow [the steps here](https://github.com/lanetix/generator-lanetix-script/wiki/Code-Climate).
 
 ### Linting
 
@@ -117,7 +114,7 @@ As a rule of thumb, Babel works best in IE9 and above.
 
 #### Are there examples?
 
-Quite a few. Check them out on [the wiki](https://github.com/babel/generator-babel-boilerplate/wiki/Examples).
+Quite a few. Check them out on [the wiki](https://github.com/lanetix/generator-lanetix-script/wiki/Examples).
 
 #### Is there a version for Node-only projects?
 
@@ -165,6 +162,6 @@ In the simplest case, you just need to install the module and use it in your scr
 If you want to access the module itself in your unit test files, you will need to set up the
 test environment to support the module. To do this:
 
-1. Load the module in the [test setup file](https://github.com/babel/generator-babel-boilerplate/blob/master/test/setup/setup.js).
+1. Load the module in the [test setup file](https://github.com/lanetix/generator-lanetix-script/blob/master/test/setup/setup.js).
 2. Add any imported variables to globals object in the
-[test globals JSON](https://github.com/babel/generator-babel-boilerplate/blob/master/test/setup/.globals.js).
+[test globals JSON](https://github.com/lanetix/generator-lanetix-script/blob/master/test/setup/.globals.js).

@@ -20,7 +20,7 @@ module.exports = generators.Base.extend({
   prompting: function() {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the ' + chalk.red('Lanetix Scripting') + ' generator!'
+      'Welcome to the ' + chalk.red('Lanetix Script') + ' generator!'
     ));
 
     return Promise.all([exec('npm whoami').catch(function(e) {

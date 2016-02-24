@@ -5,4 +5,4 @@ node_js:
   - 'io.js'
 before_install:
   - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-babel-boilerplate' ]; then cd .. && eval "mv $currentfolder generator-babel-boilerplate" && cd generator-babel-boilerplate; fi
+  - if [ "$currentfolder" != 'generator-lanetix-script' ]; then cd .. && eval "mv $currentfolder generator-lanetix-script" && cd generator-lanetix-script; fi

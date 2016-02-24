@@ -4,7 +4,7 @@ const request = require('http-as-promised').defaults({
 })
 
 export function handler (event, context) {
-  const { jwt, contents: { recordId, toStage } } = event
+  const { jwt, contents: { recordId, recordType, toStage } } = event
   const { succeed, fail } = context
   const advancing = {
     third: 0.25,
@@ -12,7 +12,7 @@ export function handler (event, context) {
     fifth: 0.75,
     sixth: 1.00
   }
-  request.patch(`https://gateway.lanetix.com/v1/records/<%= recordType %>/${recordId}`, {
+  request.patch(`https://gateway.lanetix.com/v1/records/${recordType}/${recordId}`, {
     auth: { bearer: jwt },
     body: { chance_to_win: advancing[toStage] }
   }).then(succeed).catch(fail)

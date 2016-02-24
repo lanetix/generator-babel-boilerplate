@@ -1,5 +1,5 @@
 {
-  "name": "generator-babel-boilerplate",
+  "name": "generator-lanetix-script",
   "version": "7.2.0",
   "description": "Generate a boilerplate for a library written in ES2015 for Node and the browser.",
   "main": "app/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/generator-babel-boilerplate.git"
+    "url": "https://github.com/lanetix/generator-lanetix-script.git"
   },
   "files": [
     "app"
@@ -28,9 +28,9 @@
   "author": "Jmeas",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/babel/generator-babel-boilerplate/issues"
+    "url": "https://github.com/lanetix/generator-lanetix-script/issues"
   },
-  "homepage": "https://github.com/babel/generator-babel-boilerplate",
+  "homepage": "https://github.com/lanetix/generator-lanetix-script",
   "dependencies": {
     "bluebird": "^3.1.1",
     "chalk": "^1.1.0",
