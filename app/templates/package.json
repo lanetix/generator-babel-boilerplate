@@ -7,7 +7,7 @@
     "environment": {
       "timeout": <%= timeout %>
     },
-    "path": "dist/handler.js"
+    "path": "dist/<%= recordType %>.<%= event %>.js"
   }],
   "scripts": {
     "test": "gulp",
@@ -43,6 +43,8 @@
     "gulp-util": "^3.0.7",
     "isparta": "^4.0.0",
     "json-loader": "^0.5.3",
+    "lodash.uniqby": "^4.2.0",
+    "merge-stream": "^1.0.0",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
