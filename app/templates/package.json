@@ -1,6 +1,5 @@
 {
-  "main": "dist/handler.js",
-  "lanetix": {
+  "lanetix": [{
     "event": {
       "name": "<%= event %>",
       "recordType": "<%= recordType %>"
@@ -9,7 +8,7 @@
       "timeout": <%= timeout %>
     },
     "path": "dist/handler.js"
-  },
+  }],
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
@@ -17,9 +16,6 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "coverage": "gulp coverage"
-  },
-  "dependencies": {
-    "http-as-promised": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
