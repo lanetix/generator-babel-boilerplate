@@ -15,7 +15,7 @@ import manifest  from './package.json';
 const $ = loadPlugins();
 
 // Gather the library data from `package.json`
-const mainFile = manifest.main;
+const mainFile = manifest.lanetix[0].path;
 const destinationFolder = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
 
