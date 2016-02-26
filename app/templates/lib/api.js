@@ -8,7 +8,7 @@ export default function API ({ jwt }) {
     }
   }
   return function request (options, cb) {
-    const opts = Object.assign({}, defaults, options)
+    const opts = { ...defaults, ...options }
     const reqBody = opts.body ? JSON.stringify(opts.body) : null
     if (reqBody) {
       opts.headers['Content-Length'] = reqBody.length
