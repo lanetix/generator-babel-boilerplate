@@ -34,12 +34,11 @@ function onError () {
 function lint (files) {
   return gulp.src(files)
     .pipe($.plumber())
+    .pipe($.standard())
+    .pipe($.standard.reporter('default', { breakOnError: true }))
     .pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.eslint.failOnError())
-    .pipe($.jscs())
-    .pipe($.jscs.reporter())
-    .pipe($.jscs.reporter('fail'))
+    .pipe($.eslint.failAfterError())
     .on('error', onError)
 }
 

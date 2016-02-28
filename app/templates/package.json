@@ -12,10 +12,18 @@
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
-    "test-browser": "gulp test-browser",
     "watch": "gulp watch",
     "build": "gulp build",
-    "coverage": "gulp coverage"
+    "coverage": "gulp coverage",
+    "git-add-dist": "git add dist/*"
+  },
+  "pre-commit": {
+    "run": [
+      "build",
+      "git-add-dist"
+    ],
+    "silent": true,
+    "colors": false
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
@@ -27,19 +35,20 @@
     "babel-register": "^6.3.13",
     "chai": "^3.4.1",
     "del": "^2.2.0",
+    "eslint-plugin-nodeca": "^1.0.3",
     "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-eslint": "^1.1.1",
     "gulp-filter": "^3.0.0",
     "gulp-istanbul": "^0.10.3",
-    "gulp-jscs": "^3.0.0",
     "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.1.0",
     "gulp-mocha": "^2.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-standard": "^6.0.5",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "isparta": "^4.0.0",
@@ -47,6 +56,7 @@
     "lodash.uniqby": "^4.2.0",
     "merge-stream": "^1.0.0",
     "mocha": "^2.3.4",
+    "pre-commit": "^1.1.2",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "vinyl-source-stream": "^1.1.0",
