@@ -17,6 +17,19 @@
     "coverage": "gulp coverage",
     "git-add-dist": "git add dist/*"
   },
+  "author": "<%- author %>",
+  "name": "<%= repo %>",
+  "version": "0.0.1",
+  "description": "Lanetix scripts repo",
+  "license": "MIT",
+  "homepage": "https://github.com/<%= user %>/<%= repo %>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<%= user %>/<%= repo %>.git"
+  },
+  "bugs": {
+    "url": "https://github.com/<%= user %>/<%= repo %>/issues"
+  },
   "pre-commit": {
     "run": [
       "build",

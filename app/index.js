@@ -5,22 +5,29 @@ var path = require('path')
 var generators = require('yeoman-generator')
 var chalk = require('chalk')
 var yosay = require('yosay')
-var mkdirp = require('mkdirp')
-var camelcase = _.camelCase
 var kebabcase = _.kebabCase
 var trim = _.trim
 var Promise = require('bluebird')
 var exec = Promise.promisify(require('child_process').exec)
+var gitConfig = require('git-config')
+var jsesc = require('jsesc')
+
+function jsonEscape (str) {
+  return jsesc(str, { quotes: 'double' })
+}
 
 module.exports = generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json')
+    this.composeWith('git-init', {}, {
+      local: require.resolve('generator-git-init')
+    })
   },
 
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the ' + chalk.red('Lanetix Script') + ' generator!'
+      'Welcome to the ' + chalk.green('Lanetix Script') + ' generator!'
     ))
 
     return Promise.all([exec('npm whoami').catch(function (e) {
@@ -35,21 +42,25 @@ module.exports = generators.Base.extend({
   },
 
   _showPrompts: function () {
+    var config = gitConfig.sync()
+    this.user = config.user ? config.user : {}
     var prompts = [{
       type: 'list',
       name: 'event',
       message: 'What event do you want to handle?',
       choices: [
-        'recordChangePostCommit',
-        'workflowPostStageAdvance'
+        'workflowPostStageAdvance',
+        'recordChangePostCommit'
       ],
-      default: 'recordChangePostCommit'
+      default: 'workflowPostStageAdvance',
+      store: true
     }, {
       type: 'input',
       name: 'recordType',
       message: 'What record type do you want to handle?',
       filter: _.snakeCase,
-      default: 'parts_warehouse'
+      default: 'parts_warehouse',
+      store: true
     }, {
       type: 'input',
       name: 'timeout',
@@ -63,7 +74,25 @@ module.exports = generators.Base.extend({
             ? 'must be greater than zero'
             : true
       },
-      default: 100
+      default: 100,
+      store: true
+    }, {
+      type: 'input',
+      name: 'user',
+      message: 'What is the Github username/organization for this project?',
+      default: this.username,
+      store: true
+    }, {
+      type: 'input',
+      name: 'repo',
+      message: 'What is the repository/project name?',
+      default: 'lanetix-scripts'
+    }, {
+      type: 'input',
+      name: 'author',
+      message: 'Who is the author of this project?',
+      default: this.user.name + ' <' + this.user.email + '>',
+      store: true
     }]
 
     var self = this
@@ -72,6 +101,9 @@ module.exports = generators.Base.extend({
         self.event = props.event
         self.timeout = props.timeout
         self.recordType = props.recordType
+        self.user = jsonEscape(props.user)
+        self.repo = jsonEscape(kebabcase(props.repo))
+        self.author = jsonEscape(props.author)
         resolve()
       })
     })
@@ -90,7 +122,7 @@ module.exports = generators.Base.extend({
           // The files we don't want to rename are both "index.js", and one of them is in
           // "test/unit," and the other is in "src"
           var ignoreDir = relativeDir === 'test/unit' || relativeDir === 'src'
-          var shouldCopy = !ignoreDir && !/index.js$/.test(filename)
+          var shouldCopy = !ignoreDir && !/(index.js|\.DS_Store)$/.test(filename)
           if (shouldCopy) {
             target = path.join(relativeDir, filename)
             self.template(target, target)

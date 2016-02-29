@@ -1,29 +1,34 @@
-import gulp from 'gulp'
-import loadPlugins from 'gulp-load-plugins'
-import del from 'del'
-import path from 'path'
-import { Instrumenter } from 'isparta'
-import webpackStream from 'webpack-stream'
-import merge from 'merge-stream'
-import uniqBy from 'lodash.uniqby'
-import mochaGlobals from './test/setup/.globals'
-import manifest from './package.json'
-
-// Load all of our Gulp plugins
-const $ = loadPlugins()
+var gulp = require('gulp')
+var $ = require('gulp-load-plugins')()
+var del = require('del')
+var path = require('path')
+var Instrumenter = require('isparta').Instrumenter
+var webpackStream = require('webpack-stream')
+var merge = require('merge-stream')
+var uniqBy = require('lodash.uniqby')
+var mochaGlobals = require('./test/setup/.globals')
+var manifest = require('./package.json')
 
 // Gather the library data from `package.json`
-const file = uniqBy(manifest.lanetix, 'path').map(e => ({
-  folder: path.dirname(e.path),
-  name: path.basename(e.path, path.extname(e.path))
-}))
+var file = uniqBy(manifest.lanetix, 'path').map(function (e) {
+  return {
+    folder: path.dirname(e.path),
+    name: path.basename(e.path, path.extname(e.path))
+  }
+})
 
 function cleanDist (done) {
-  del(uniqBy(file, 'folder').map(e => e.folder)).then(() => done())
+  del(uniqBy(file, 'folder').map(function (e) {
+    return e.folder
+  })).then(function () {
+    done()
+  })
 }
 
 function cleanTmp (done) {
-  del(['tmp']).then(() => done())
+  del(['tmp']).then(function () {
+    done()
+  })
 }
 
 function onError () {
@@ -54,20 +59,32 @@ function lintGulpfile () {
   return lint('gulpfile.babel.js')
 }
 
+function lintAll () {
+  return lint(['src/**/*.js', 'test/**/*.js', 'gulpfile.babel.js'])
+}
+
 function build () {
-  return merge(...file.map(handler =>
-    gulp.src(path.join('src', `${handler.name}.js`))
+  return merge().add(file.map(function (handler) {
+    return gulp.src(path.join('src', handler.name + '.js'))
       .pipe($.plumber())
       .pipe(webpackStream({
         target: 'node',
         output: {
-          filename: `${handler.name}.js`,
+          filename: handler.name + '.js',
           libraryTarget: 'commonjs2'
         },
         module: {
           loaders: [
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.json$/, loader: 'json-loader' }
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loader: 'babel-loader',
+              query: { cacheDirectory: true }
+            },
+            {
+              test: /\.json$/,
+              loader: 'json-loader'
+            }
           ],
           noParse: /node_modules\/json-schema\/lib\/validate\.js/
         },
@@ -79,10 +96,10 @@ function build () {
         }
       }))
       .pipe(gulp.dest(handler.folder))
-      .pipe($.filter([`${handler.name}.js`, '!**/*.js.map']))
+      .pipe($.filter([handler.name + '.js', '!**/*.js.map']))
       .pipe($.uglify())
       .pipe(gulp.dest(handler.folder))
-  ))
+  }))
 }
 
 function _mocha () {
@@ -108,14 +125,14 @@ function coverage (done) {
   gulp.src(['src/**/*.js'])
     .pipe($.istanbul({ instrumenter: Instrumenter }))
     .pipe($.istanbul.hookRequire())
-    .on('finish', () => {
+    .on('finish', function () {
       return test()
         .pipe($.istanbul.writeReports())
         .on('end', done)
     })
 }
 
-const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc']
+var watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc']
 
 // Run the headless unit tests as you make changes.
 function watch () {
@@ -138,7 +155,7 @@ gulp.task('lint-test', lintTest)
 gulp.task('lint-gulpfile', lintGulpfile)
 
 // Lint everything
-gulp.task('lint', ['lint-src', 'lint-test', 'lint-gulpfile'])
+gulp.task('lint', lintAll)
 
 // Build two versions of the library
 gulp.task('build', ['clean'], build)
